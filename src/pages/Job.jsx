@@ -1,7 +1,7 @@
 import React, { useEffect,useState} from 'react'
 import { useParams, } from 'react-router-dom'
-import { getJobs } from '../apis/Jobs';
-import { useSession } from '@clerk/clerk-react';
+import { getJobs,checkApplication } from '../apis/Jobs';
+import { useSession, useUser } from '@clerk/clerk-react';
 import { DoorOpen, MapPinIcon } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { BarLoader } from 'react-spinners';
@@ -33,8 +33,11 @@ export const Job = () => {
     
   const {id} = useParams();
   const [job, setJob] = useState([]);
+  const {user}=useUser();
   const{session} = useSession();
   const [loading, setLoading] = useState(true);
+  const[dialogStatus,setDialogStatus] = useState(false)
+  const[applied,setApplied]=useState(false);
 
   // const jobRequirementArray = job.requirements.split("\n");
   
@@ -53,12 +56,38 @@ export const Job = () => {
     console.log(data);
     setJob(data);
     setLoading(false);
-    
   }
 
   useEffect(() => {
     fetchSingleJob(); 
   }, [id,session]); // every time pages refreshes we get new session so we need to add session in the dependency array
+
+
+  const fetchApplicationStatus = async () =>{
+    if(session){
+      const supabaseAccessToken = await session.getToken({template:"supabase"});
+      const response = await checkApplication(supabaseAccessToken,id,user.id);
+      if(response){
+        setApplied(true);
+      }
+      else{
+        setApplied(false);
+      }
+      
+
+    }
+
+  }
+
+  useEffect(()=>{
+    fetchApplicationStatus();
+
+  },[session,id]);
+
+
+ const handleApply = ()=>{
+  setDialogStatus(true);
+ }
 
   return (
     loading ? <div className='flex justify-center items-center h-screen'><BarLoader color='#d97706' /></div> :
@@ -93,10 +122,7 @@ export const Job = () => {
         </ul>
       </div>
       
-      <Dialog >
-        <DialogTrigger asChild>
-        <Button className='my-5 bg-amber-600 text-amber-100'>Apply</Button>
-        </DialogTrigger>
+      <Dialog open={dialogStatus} onOpenChange={setDialogStatus} > 
         <DialogContent className="sm:max-w-[425px] bg-amber-300">
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
@@ -104,9 +130,14 @@ export const Job = () => {
               Make changes to your profile here. Click save when you're done.
             </DialogDescription>
           </DialogHeader>
-          <ProfileForm  job={job} />
+          <ProfileForm  job={job} setDialogStatus = {setDialogStatus} setApplied={setApplied}/>
         </DialogContent>
       </Dialog>
+
+      <Button  className={`my-5 text-amber-400 ${
+              applied ? "bg-amber-100 cursor-not-allowed opacity-50" : "bg-amber-600"
+            }`} disabled={applied} onClick={handleApply}>{
+          applied ? "Applied" : "Apply"}</Button>
 
 
       

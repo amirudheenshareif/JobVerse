@@ -14,7 +14,7 @@ import {
 import { useSession, useUser } from '@clerk/clerk-react';
 import { uploadApplicaion } from '../apis/Jobs';
 
-export const ProfileForm = ({ className,job }) => {
+export const ProfileForm = ({ className,job,setDialogStatus,setApplied }) => {
  
 
   const[name,setName]=useState("");
@@ -34,7 +34,9 @@ export const ProfileForm = ({ className,job }) => {
     }
     const supabaseAccessToken = await session.getToken({template:"supabase"});
     const res = await uploadApplicaion(supabaseAccessToken,user.id,name,email,education,exp,job.id);
-    console.log(res); 
+    console.log(res);
+    setApplied(true);
+    setDialogStatus(false);
    
   };
 
@@ -86,6 +88,7 @@ export const ProfileForm = ({ className,job }) => {
         <Input type="file" id="resume" placeholder="Email" name="resume" accept=".pdf,.doc,.docx" />
       </div>
       <Button type="submit" className='bg-amber-500'>Apply</Button>
+      <Button onClick={()=>{setDialogStatus(false)}}>Cancel</Button>
     </form>
   );
 }

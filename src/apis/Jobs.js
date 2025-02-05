@@ -222,6 +222,21 @@ export async function getFilteredJobs(token,{searchQuery,location="",selectedCom
   return data;
 }
 
+export async function checkApplication(token,jobId,userId){
+  const supabase = await supabaseClient(token);
+  const{data,error} = await supabase.from("applications").select("candidate_id,job_id").eq("candidate_id", userId).eq("job_id",jobId);
+
+  if(error){
+    console.log("Error checking Applications")
+    return;
+  }
+  if(data.length > 0){
+    console.log("Already applied");
+    return true;
+  }
+  return false;
+}
+
     
 
 
