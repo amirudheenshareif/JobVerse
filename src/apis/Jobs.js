@@ -177,9 +177,7 @@ export async function getCompanies(token){
 export async function getFilteredJobs(token,{searchQuery,location="",selectedCompany=""}){
   const supabase = await supabaseClient(token);
   let query = supabase.from("jobs")  // No await , because await executes the query immediately
-  .select(`*,
-    companies:company_id(name,logo_url)
-    `);
+  .select("*,company:companies(name,logo_url)");
 
       if (location) {
     query = query.eq("location", location);

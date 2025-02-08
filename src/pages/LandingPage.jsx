@@ -11,6 +11,7 @@ import {
 } from '../components/ui/accordion'
 import { Link } from 'react-router-dom'
 import { useUser } from '@clerk/clerk-react'
+import faqData from '../apis/faq.json'
 
 // import {
 //   Carousel,
@@ -34,16 +35,16 @@ export const LandingPage = () => {
   
   return (
    <>
-   <div className='mt-20 flex flex-col items-center justify-center  bg-amber-200'>
-      <h1 className='text-7xl text-center  font-bold  '>Discover Your Next Career Move with JobVerse.</h1>
-      <h2 className='text-4xl text-center mt-10 font-medium'>Find. Post. Connect. – Your Job Search, Simplified</h2>
-      <div className='mt-10  flex justify-center gap-8' >
-      <Link to='/joblist'>
-      <Button variant="outline" className = 'bg-amber-900 text-amber-100 mt-1 px-12 py-9' >Find Jobs</Button>
+   <div className='mt-20 flex flex-col items-center justify-center '>
+      <h1 className='mb-5 text-center text-3xl sm:text-4xl md:text-5xl font-bold '>Discover Your Next Career Move with JobVerse.</h1>
+      <h2 className='mt-6 text-center text-2xl sm:text-3xl md:text-4xlfont-medium'>Find. Post. Connect. – Your Job Search, Simplified</h2>
+      <div className='mt-10 px-8  flex justify-center gap-8' >
+      <Link to='/joblist' >
+      <Button variant="outline" className = 'font-bold border border-blue-600 bg-blue-600 hover:bg-blue-700 text-white mt-1 px-9 py-6 sm:px-12 sm:py-9' >Find Jobs</Button>
       </Link>
-      <Link to='/onboarding'>
+      {/* <Link to='/onboarding' className='mr-10'>
       <Button variant="outline" className = 'bg-amber-900 text-amber-100 mt-1 px-12 py-9' >Post Jobs</Button>
-      </Link>
+      </Link> */}
       </div>
    </div>
 
@@ -61,7 +62,7 @@ export const LandingPage = () => {
 </div>
 
 <div className='flex justify-center items-center flex-wrap gap-8 '>
-<Card className='m-8 mb-2 w-full md:w-[500px] h-32'>
+<Card className='bg-white shadow-md rounded-lg border border-slate-200 m-8 mb-2 w-full md:w-[500px] sm:h-32'>
   <CardHeader >
     <CardTitle className='font-bold'>Plan Your Career Like Never Before</CardTitle>
     <CardDescription>Let our AI guide you to success. 
@@ -70,7 +71,7 @@ export const LandingPage = () => {
     </CardDescription>
   </CardHeader>
 </Card>
-<Card className='m-8 mb-2 w-full md:w-[500px] h-32'>
+<Card className='bg-white shadow-md rounded-lg border border-slate-200 m-8 mb-2 w-full md:w-[500px] sm:h-32'>
   <CardHeader >
     <CardTitle className='font-bold'> Join the Community</CardTitle>
     <CardDescription>Be part of a thriving community of
@@ -82,58 +83,18 @@ export const LandingPage = () => {
 </div>
 
 <div className='w-full p-8 mb-12'>
-<Accordion type="single" className='w-full ' collapsible>
-  <AccordionItem value="item-1">
-    <AccordionTrigger>How does JobVerse help me find jobs?</AccordionTrigger>
-    <AccordionContent>
-    JobVerse matches you with tailored opportunities
-     using advanced filters and AI insights,
-      ensuring you find jobs aligned with your goals.
-    </AccordionContent>
-  </AccordionItem>
-</Accordion>
-
-<Accordion type="single"  collapsible>
-  <AccordionItem value="item-2">
-    <AccordionTrigger>What makes JobVerse unique?</AccordionTrigger>
-    <AccordionContent>
-    We offer features like AI Career Path Planner, 
-    personalized growth suggestions, and a supportive
-    community for holistic career development.
-    </AccordionContent>
-  </AccordionItem>
-</Accordion>
-
-<Accordion type="single" collapsible>
-  <AccordionItem value="item-3">
-    <AccordionTrigger> Can I upskill with JobVerse?</AccordionTrigger>
-    <AccordionContent>
-    Yes, JobVerse provides tailored learning suggestions and 
-    resources to help you stay ahead in your career.
-    </AccordionContent>
-  </AccordionItem>
-</Accordion>
-
-<Accordion type="single" collapsible>
-  <AccordionItem value="item-4">
-    <AccordionTrigger>Is JobVerse free?</AccordionTrigger>
-    <AccordionContent>
-    Yes, JobVerse is free for job seekers,
-   with premium features available via subscription.
-    </AccordionContent>
-  </AccordionItem>
-</Accordion>
-
-</div>
-
-
-
-
-
-
-
-
-   
+        <Accordion type='single' collapsible className='w-full'>
+          {faqData.map((faq) => (
+            <AccordionItem className='bg-white rounded-lg border border-slate-200 px-6
+                   shadow-sm hover:shadow-md mb-1'
+             key={faq.id} value={faq.id}>
+              <AccordionTrigger className='font-semibold text-slate-800 hover:text-blue-600 py-4'>{faq.question}</AccordionTrigger>
+              <AccordionContent className='text-slate-600 pb-4'>{faq.answer}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+ 
    </>
   )
 }

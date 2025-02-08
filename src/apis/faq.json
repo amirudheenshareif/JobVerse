@@ -1,0 +1,23 @@
+[
+    {
+      "id": "item-1",
+      "question": "How does JobVerse help me find jobs?",
+      "answer": "JobVerse matches you with tailored opportunities using advanced filters and AI insights, ensuring you find jobs aligned with your goals."
+    },
+    {
+      "id": "item-2",
+      "question": "What makes JobVerse unique?",
+      "answer": "We offer features like AI Career Path Planner, personalized growth suggestions, and a supportive community for holistic career development."
+    },
+    {
+      "id": "item-3",
+      "question": "Can I upskill with JobVerse?",
+      "answer": "Yes, JobVerse provides tailored learning suggestions and resources to help you stay ahead in your career."
+    },
+    {
+      "id": "item-4",
+      "question": "Is JobVerse free?",
+      "answer": "Yes, JobVerse is free for job seekers, with premium features available via subscription."
+    }
+  ]
+  

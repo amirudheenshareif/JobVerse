@@ -31,7 +31,7 @@ export const Joblist = () => {
   const fetchJobs = async () => {
       if(session){
         const supabaseAccessToken = await session.getToken({
-          template:"supabase",
+          template:"supabase", refresh:"true",
         });
         const data= await getJobs(supabaseAccessToken)
         console.log(data);
@@ -46,7 +46,7 @@ export const Joblist = () => {
 
   const fetchCompanies = async()=>{
     if(session){ 
-      const supabaseAccessToken = await session.getToken({template:"supabase"});
+      const supabaseAccessToken = await session.getToken({template:"supabase",refresh:"true"});
       const resp = await getCompanies(supabaseAccessToken);
       console.log('resp',resp);
       setCompanies(resp || []); // to ensure companies is never null
@@ -62,35 +62,51 @@ export const Joblist = () => {
       setLoading(true)
       if(session){
       console.log(selectedCompany,typeof(selectedCompany))
-      const supabaseAccessToken = await session.getToken({template:"supabase"});
+      const supabaseAccessToken = await session.getToken({template:"supabase",refresh:"true"});
       const resp = await getFilteredJobs(supabaseAccessToken,{searchQuery,location,selectedCompany})
       setJobs(resp || []);
       console.log("Jobs after filter");
       console.log(jobs);
       setLoading(false);
     }
-
-    // useEffect(() => {
-    //   console.log("Jobs state updated:", jobs);
-    // }, [jobs]); /For debugging
-    
   }
+
+  useEffect(() => {
+    console.log("Jobs state updated:", jobs);
+  }, [jobs]); 
+
+  const handleClearFilters = async () =>{
+    setLoading(true);
+    setLocation("");;
+    setSelectedCompany("");
+    setSearchQuery("");
+    console.log("HandlefiltersWorking");
+    if(session){
+      await fetchJobs();
+    }
+    setLoading(false); 
+  }
+
+  useEffect(() => {
+    console.log("Filters cleared:", { location, selectedCompany, searchQuery });
+  }, [location, selectedCompany, searchQuery]);
 
   return (
     loading ? <div className='flex justify-center items-center h-screen'><BarLoader color='#d97706' /></div> :
-    <div className='flex-col' >
-      <h1 className='text-4xl sm:text-5xl font-bold text-center mb-6'>JobDirectory</h1>
-      <div className='flex gap-2 px-8 mb-4'> 
-      <Input placeholder="Search Jobs by title" value={searchQuery} onChange ={(e)=> setSearchQuery(e.target.value)} />
-      <Button className='bg-amber-700' onClick={handleSearch} >Search </Button>
+    <div className='flex flex-col gap-2 ' >
+      <h1 className='text-4xl sm:text-5xl font-bold text-center mb-6'>Job Directory</h1>
+      <div className='flex gap-1 sm:gap-2 px-8 mb-4'> 
+      <Input className='px-3 py-0  sm:px-4 sm:py-2 bg-white border border-slate-200 rounded-md focus:border-blue-500'
+       placeholder="Search Jobs by title" value={searchQuery} onChange ={(e)=> setSearchQuery(e.target.value)} />
+      <Button className='bg-blue-600 text-white rounded-md hover:bg-blue-700 px-3 py-0  sm:px-4 sm:py-2' onClick={handleSearch} >Search </Button>
       </div>
 
       
-    <section className='flex gap-3 flex-wrap sm:justify-between px-8 '>
+    <section className='flex gap-6 flex-wrap sm:justify-between px-8 '>
 
-    <Select onValueChange={setLocation} defaultValue={location}> 
-      <SelectTrigger  className='w-[45%] sm:w-[40%] '>
-        <SelectValue placeholder="Location" />
+    <Select value={location} onValueChange={setLocation} > 
+      <SelectTrigger  className='w-[45%] sm:w-[40%] bg-white border border-slate-200 rounded-md px-4 py-2 '>
+        <SelectValue placeholder={location=="" ? "Location": location} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup className='bg-amber-100'>
@@ -103,9 +119,9 @@ export const Joblist = () => {
       </SelectContent>
     </Select>
 
-    <Select onValueChange={setSelectedCompany} defaultValue={selectedCompany} >
-      <SelectTrigger  className='w-[45%] sm:w-[40%] '>
-        <SelectValue placeholder="Company" />
+    <Select value={selectedCompany} onValueChange={setSelectedCompany}  >
+      <SelectTrigger  className='w-[45%] sm:w-[40%] bg-white border border-slate-200 rounded-md px-4 py-2 '>
+        <SelectValue placeholder={selectedCompany=="" ? "Company": selectedCompany} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup className='bg-amber-100'>
@@ -115,7 +131,9 @@ export const Joblist = () => {
         </SelectGroup>
       </SelectContent>
     </Select>
-    <Button className='px-4 '>Clear filters</Button>
+    <Button
+     className='w-full sm:w-[15%] border border-slate-200 text-slate-600
+                rounded-md px-4 py-2 hover:bg-slate-50 hover:text-slate-800 'onClick={handleClearFilters} >Clear filters</Button>
     </section>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-8 py-10">

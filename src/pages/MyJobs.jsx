@@ -15,7 +15,7 @@ export const MyJobs = () => {
     try{
       const supabaseAccessToken = await session.getToken({template:"supabase"});
       const data = await getMyApplications(supabaseAccessToken,user.id);
-      setApplications(data);
+      setApplications(data || []);
       console.log(data);
       // setLoading(false); This wont run if an error occurs in previous lines
     }
@@ -41,9 +41,9 @@ export const MyJobs = () => {
    loading ? <div className='flex justify-center items-center h-screen'><BarLoader color='#d97706' /></div>:
    <div className='p-8 flex flex-col gap-8'>
 <h1 className='mb-5 text-center text-3xl sm:text-4xl md:text-5xl font-bold '>My Applications</h1>
-   {applications.map((application)=>(
-    <div key={application.id} className='p-3 flex flex-col gap-4 border-amber-600 border rounded-md shadow-md'>
-    <h2 className='text-2xl font-bold'>{application.jobs.title} at {application.jobs.companies.name}</h2>
+   {applications?.map((application)=>(
+    <div key={application.id} className='p-3 flex flex-col gap-4 bg-white shadow-md rounded-lg border border-slate-200'>
+    <h2 className='text-2xl font-semibold'>{application.jobs.title} at {application.jobs.companies.name}</h2>
     <div className='sm:flex justify-between items-center'>
       <div className='mb-2 flex gap-2 items-center'>
         <Briefcase/>
@@ -57,7 +57,7 @@ export const MyJobs = () => {
     <hr />
     <div className=' sm:flex justify-between items-center'>
       <p className='mb-1'>{application.created_at}</p>
-      <p className='font-medium'>Status: <span className='font-bold'>{application.status}</span></p>
+      <p className='font-medium'>Status: <span className='font-semibold'>{application.status}</span></p>
     </div>
   </div>
    ))}

@@ -56,7 +56,7 @@ export const SavedJobs = () => {
       <h1 className='mb-5 text-center text-3xl sm:text-4xl md:text-5xl font-bold '>Saved Jobs</h1>
        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-8 py-10">
       {savedJobs?.map((savedJob)=>(
-      <div key={savedJob.job_id} className='flex flex-col gap-6 sm:gap-4 md:gap-3 justify-between  border-amber-600 border p-4 rounded-md shadow-md'>
+      <div key={savedJob.job_id} className='flex flex-col gap-6 sm:gap-4 md:gap-3 justify-between p-4  bg-white shadow-md rounded-lg border border-slate-200 '>
    <h2 className='font-medium'>{savedJob.jobs.title}</h2>
    <div className='flex justify-between items-center mb-2'>
          <img src={savedJob.jobs.companies.logo_url} alt="companyLogo" className='h-6' />
@@ -71,7 +71,7 @@ export const SavedJobs = () => {
 
    <div className='flex gap-3 justify-between items-center'>
    <Button variant="outline" 
-           className='flex-1'
+           className='flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 border border-blue-500 rounded-md '
            onClick={()=> navigate(`/job/${savedJob.job_id}`)}>
               More Details</Button>
       <Button

@@ -22,7 +22,7 @@ export const Header = () => {
       In this case it is the Button componenet */}
 
      <SignedOut>
-        <Button variant="outline" className="bg-amber-900 text-amber-100 mt-1 px-8 py-5"
+        <Button variant="outline" className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 mt-1 px-8 py-5"
         onClick={() => setShowSignIn(true)}>
           Login
         </Button>
@@ -35,7 +35,7 @@ export const Header = () => {
       {/* Dropdown appears when this button is clicked */}
         <UserButton >
           {/* The actual dropdown that appears. || Required Links are added in this component  */}
-          <UserButton.MenuItems> 
+          <UserButton.MenuItems > 
              <UserButton.Link label="My Jobs" href="/myjobs" labelIcon={<BriefcaseBusiness/>} />
              <UserButton.Link label="Saved Jobs" href="/savedjobs"  labelIcon={<Heart/>} />
            </UserButton.MenuItems>

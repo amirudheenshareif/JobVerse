@@ -96,6 +96,7 @@ export const Job = () => {
         <h1 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-4 '>{job?.title}</h1>
         {job?.company && <img src={job?.company?.logo_url} alt={job?.company?.name} className='h-6' />}
       </div>
+      
 
       <div className='flex justify-between items-center sm:justify-start gap-4 mt-5'>
         <div className='flex items-center'>
@@ -108,13 +109,13 @@ export const Job = () => {
           <span className='text-1xl font-medium ml-1'>Open</span>
         </div>
       </div>
-
-      <div className='mt-5'>
-        <h2 className='text-2xl font-bold'>About the Job</h2>
+        <hr />
+      <div className='mt-2 p-4  bg-white shadow-md rounded-lg border border-slate-200'>
+        <h2 className='text-2xl font-semibold'>About the Job</h2>
         <p className='mt-3 font-medium'>{job?.description}</p>
       </div>
-      <div className='mt-5 flex flex-col'>
-        <h2 className='text-2xl font-bold'>What you bring to the team</h2>
+      <div className='mt-2 flex flex-col p-4  bg-white shadow-md rounded-lg border border-slate-200'>
+        <h2 className='text-2xl font-semibold'>What you bring to the team</h2>
         <ul className='mt-3 list-disc list-inside'>
           {job?.requirements && job?.requirements.split("\n").map((requirement, index) => (
             <li key={index} className='mt-2 font-medium'>{requirement}</li>
@@ -134,8 +135,9 @@ export const Job = () => {
         </DialogContent>
       </Dialog>
 
-      <Button  className={`my-5 text-amber-400 ${
-              applied ? "bg-amber-100 cursor-not-allowed opacity-50" : "bg-amber-600"
+      <Button  className={`my-5 border rounded-md  ${
+              applied ? "bg-teal-50 text-teal-600  border-teal-200 cursor-not-allowed "
+               : "bg-blue-600 hover:bg-blue-700 text-white"
             }`} disabled={applied} onClick={handleApply}>{
           applied ? "Applied" : "Apply"}</Button>
 
