@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react'
 import { getCompanies, getFilteredJobs, getJobs } from '../apis/Jobs'
 import { useSession } from '@clerk/clerk-react'
-import { BarLoader } from 'react-spinners'
+import {  RotateLoader } from 'react-spinners'
 import { Input } from '../components/ui/input'
 import { Button } from '../components/ui/button'
 import { JobCard } from '../components/JobCard'
@@ -92,7 +92,7 @@ export const Joblist = () => {
   }, [location, selectedCompany, searchQuery]);
 
   return (
-    loading ? <div className='flex justify-center items-center h-screen'><BarLoader color='#d97706' /></div> :
+    loading ? <div className='flex justify-center items-center h-screen'><RotateLoader color='#2563EB' /></div> :
     <div className='flex flex-col gap-2 ' >
       <h1 className='text-4xl sm:text-5xl font-bold text-center mb-6'>Job Directory</h1>
       <div className='flex gap-1 sm:gap-2 px-8 mb-4'> 
@@ -109,7 +109,7 @@ export const Joblist = () => {
         <SelectValue placeholder={location=="" ? "Location": location} />
       </SelectTrigger>
       <SelectContent>
-        <SelectGroup className='bg-amber-100'>
+        <SelectGroup className='bg-slate-100'>
         {capitals.map((capitalObj) => (
               <SelectItem key={capitalObj.capital} value={capitalObj.capital}>
                 {capitalObj.capital}
@@ -124,9 +124,9 @@ export const Joblist = () => {
         <SelectValue placeholder={selectedCompany=="" ? "Company": selectedCompany} />
       </SelectTrigger>
       <SelectContent>
-        <SelectGroup className='bg-amber-100'>
+        <SelectGroup className='bg-slate-100'>
        {companies.map((company)=>(
-         <SelectItem value={company.id} key={company.id}>{company.name}</SelectItem>
+         <SelectItem  value={company.id} key={company.id}>{company.name}</SelectItem>
        ))}  
         </SelectGroup>
       </SelectContent>
@@ -139,7 +139,7 @@ export const Joblist = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-8 py-10">
       {jobs?.length>0 ? jobs.map((job) => ( //check is to ensure jobs is never null since mapping null causes error
          <JobCard  key={job.id} job={job}  />
-      )) : <p>No jobs found </p>}
+      )) : <p className='font-semibold'>Looks like a small hiccup—refresh to continue!</p>}
       </div>
     
 </div>

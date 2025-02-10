@@ -4,12 +4,12 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ClerkProvider } from '@clerk/clerk-react'
 import { AppLayout } from './layouts/AppLayout';
 import { LandingPage } from './pages/LandingPage';
-import { Onboarding } from './pages/Onboarding';
 import { Joblist } from './pages/Joblist';
 import { Job } from './pages/Job';
 import { MyJobs } from './pages/MyJobs';
 import { SavedJobs } from './pages/SavedJobs';
-import { SignedIn } from '@clerk/clerk-react';
+import { ProtectedRoute } from './components/ProtectedRoute';
+
 
 function App() {
 
@@ -21,24 +21,20 @@ function App() {
       element:<LandingPage/>
       },
       {
-      path: "/onboarding",
-      element:<Onboarding/>
-      },
-      {
       path: "/joblist",
-      element:<SignedIn> <Joblist/> </SignedIn>
+      element: <ProtectedRoute> <Joblist/> </ProtectedRoute> 
       },
       {
       path: "/job/:id",
-      element:<SignedIn> <Job/> </SignedIn>
+      element: <ProtectedRoute> <Job/> </ProtectedRoute> 
       },
       {
       path: "/myjobs",
-      element:<SignedIn> <MyJobs/> </SignedIn>
+      element: <ProtectedRoute> <MyJobs/>  </ProtectedRoute>
       },
       {
       path: "/savedjobs",
-      element:<SignedIn> <SavedJobs/> </SignedIn>
+      element: <ProtectedRoute> <SavedJobs/> </ProtectedRoute> 
       },
     ],
   }]);

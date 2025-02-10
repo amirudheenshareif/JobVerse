@@ -25,8 +25,6 @@ export const ProfileForm = ({ className,job,setDialogStatus,setApplied }) => {
   const{user} = useUser();
 
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(!session){
@@ -36,8 +34,7 @@ export const ProfileForm = ({ className,job,setDialogStatus,setApplied }) => {
     const res = await uploadApplicaion(supabaseAccessToken,user.id,name,email,education,exp,job.id);
     console.log(res);
     setApplied(true);
-    setDialogStatus(false);
-   
+    setDialogStatus(false);  
   };
 
   return (
@@ -51,14 +48,13 @@ export const ProfileForm = ({ className,job,setDialogStatus,setApplied }) => {
         <Input type="text" id="email" placeholder="Email" value={email} onChange={(e)=> setEmail(e.target.value)} />
       </div>
       <div className="grid gap-2">
-        {/* <Label htmlFor="lastName">Last Name</Label>
-        <Input id="lastName" placeholder="Last Name" /> */}
+      
         <Select onValueChange={setEducation}> 
       <SelectTrigger className='w-full '>
         <SelectValue placeholder="Education" />
       </SelectTrigger>
       <SelectContent>
-        <SelectGroup className='bg-amber-200'>
+        <SelectGroup className='bg-slate-200'>
           <SelectItem value="UG">UG</SelectItem>
           <SelectItem value="PG">PG</SelectItem>
           <SelectItem value="PhD">PhD</SelectItem>   
@@ -74,7 +70,7 @@ export const ProfileForm = ({ className,job,setDialogStatus,setApplied }) => {
         <SelectValue placeholder="Years of Experience" />
       </SelectTrigger>
       <SelectContent>
-        <SelectGroup className='bg-amber-200'>
+        <SelectGroup className='bg-slate-200'>
           <SelectItem value="0-1">0-1 years</SelectItem>
           <SelectItem value="1-3">1-3 years</SelectItem>
           <SelectItem value="3-5">3-5years</SelectItem>
@@ -87,7 +83,7 @@ export const ProfileForm = ({ className,job,setDialogStatus,setApplied }) => {
         <Label htmlFor="resume">Upload Resume</Label>
         <Input type="file" id="resume" placeholder="Email" name="resume" accept=".pdf,.doc,.docx" />
       </div>
-      <Button type="submit" className='bg-amber-500'>Apply</Button>
+      <Button type="submit" className='bg-blue-600 hover:bg-blue-700 text-white'>Apply</Button>
       <Button onClick={()=>{setDialogStatus(false)}}>Cancel</Button>
     </form>
   );

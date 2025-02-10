@@ -4,7 +4,7 @@ import { getJobs,checkApplication } from '../apis/Jobs';
 import { useSession, useUser } from '@clerk/clerk-react';
 import { DoorOpen, MapPinIcon } from 'lucide-react';
 import { Button } from '../components/ui/button';
-import { BarLoader } from 'react-spinners';
+import { RotateLoader } from 'react-spinners';
 import { ProfileForm } from '../components/ProfileForm';
 
 
@@ -14,19 +14,8 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../components/ui/dialog";
 
-// import {
-//   Drawer,
-//   DrawerClose,
-//   DrawerContent,
-//   DrawerDescription,
-//   DrawerFooter,
-//   DrawerHeader,
-//   DrawerTitle,
-//   DrawerTrigger,
-// } from "../components/ui/drawer";
 
 
 export const Job = () => {
@@ -73,15 +62,11 @@ export const Job = () => {
       else{
         setApplied(false);
       }
-      
-
     }
-
   }
 
   useEffect(()=>{
     fetchApplicationStatus();
-
   },[session,id]);
 
 
@@ -90,7 +75,7 @@ export const Job = () => {
  }
 
   return (
-    loading ? <div className='flex justify-center items-center h-screen'><BarLoader color='#d97706' /></div> :
+    loading ? <div className='flex justify-center items-center h-screen'><RotateLoader color='#2563EB' /></div> :
     <div className='px-8 flex flex-col justify-between gap-5'>
       <div className='text-left sm:flex sm:justify-between items-center'>
         <h1 className='text-3xl sm:text-4xl md:text-5xl font-bold mb-4 '>{job?.title}</h1>
@@ -124,11 +109,11 @@ export const Job = () => {
       </div>
       
       <Dialog open={dialogStatus} onOpenChange={setDialogStatus} > 
-        <DialogContent className="sm:max-w-[425px] bg-amber-300">
+        <DialogContent className="sm:max-w-[425px] bg-slate-100">
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
+            <DialogTitle>Application Form</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
+              Fill the to following details. Click Apply when you're done.
             </DialogDescription>
           </DialogHeader>
           <ProfileForm  job={job} setDialogStatus = {setDialogStatus} setApplied={setApplied}/>
@@ -139,46 +124,13 @@ export const Job = () => {
               applied ? "bg-teal-50 text-teal-600  border-teal-200 cursor-not-allowed "
                : "bg-blue-600 hover:bg-blue-700 text-white"
             }`} disabled={applied} onClick={handleApply}>{
-          applied ? "Applied" : "Apply"}</Button>
-
-
-      
+          applied ? "Applied" : "Apply"}</Button>   
     </div>   
   )
 }
 
-// export function DrawerDialogDemo() {
-//   const [open, setOpen] = useState(false);
-//   const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  // if (isDesktop) {
-  //   return (
-      
-  //   );
-  // }
 
-//   return (
-//     <Drawer open={open} onOpenChange={setOpen}>
-//       <DrawerTrigger asChild>
-//         <Button variant="outline">Edit Profile</Button>
-//       </DrawerTrigger>
-//       <DrawerContent>
-//         <DrawerHeader className="text-left">
-//           <DrawerTitle>Edit profile</DrawerTitle>
-//           <DrawerDescription>
-//             Make changes to your profile here. Click save when you're done.
-//           </DrawerDescription>
-//         </DrawerHeader>
-//         <ProfileForm className="px-4" />
-//         <DrawerFooter className="pt-2">
-//           <DrawerClose asChild>
-//             <Button variant="outline">Cancel</Button>
-//           </DrawerClose>
-//         </DrawerFooter>
-//       </DrawerContent>
-//     </Drawer>
-//   );
-// }
 
 
 

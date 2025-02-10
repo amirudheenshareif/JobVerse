@@ -4,7 +4,7 @@ import { useSession, useUser } from '@clerk/clerk-react'
 import { getSavedJobs,deleteSavedJobs } from '../apis/Jobs'
 import {  MapPinIcon, Trash2Icon } from 'lucide-react'
 import {Button} from '../components/ui/button'
-import { BarLoader } from 'react-spinners'
+import { RotateLoader } from 'react-spinners'
 
 
 
@@ -50,7 +50,7 @@ export const SavedJobs = () => {
 
   return (
 
-     loading ? <div className='flex justify-center items-center h-screen'><BarLoader color='#d97706' /></div> :
+     loading ? <div className='flex justify-center items-center h-screen'><RotateLoader color='#2563EB' /></div> :
       
      <div>
       <h1 className='mb-5 text-center text-3xl sm:text-4xl md:text-5xl font-bold '>Saved Jobs</h1>

@@ -2,7 +2,7 @@ import { useSession, useUser } from '@clerk/clerk-react'
 import { Briefcase, School } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { getMyApplications } from '../apis/Jobs'
-import { BarLoader } from 'react-spinners';
+import { RotateLoader } from 'react-spinners';
 
 export const MyJobs = () => {
 
@@ -38,7 +38,7 @@ export const MyJobs = () => {
 
 
   return (
-   loading ? <div className='flex justify-center items-center h-screen'><BarLoader color='#d97706' /></div>:
+   loading ? <div className='flex justify-center items-center h-screen'><RotateLoader color='#2563EB' /></div>:
    <div className='p-8 flex flex-col gap-8'>
 <h1 className='mb-5 text-center text-3xl sm:text-4xl md:text-5xl font-bold '>My Applications</h1>
    {applications?.map((application)=>(

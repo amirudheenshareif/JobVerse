@@ -1,20 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from './ui/button'
-import logo from '../assets/logo-jobverse.png'
+import logo from '../assets/jobverse-logo.png'
 import { SignIn ,SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 import { useState } from 'react';
 import { BriefcaseBusiness, Heart } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 
 
 export const Header = () => {
 
   const [showSignIn, setShowSignIn] = useState(false);
+  const[search,setSearch] = useSearchParams(); // used to search params in url
+
+  useEffect(()=>{
+    if(search.get("sign-in")){ // searches whether url has a queryParams sign-in=true
+      setShowSignIn(true); //Modal appears
+      setSearch({}) // after that search state is set empty
+    }
+  },[search])
+
+  const handleOverlayClick = (e)=>{
+     if(e.target===e.currentTarget){
+        setShowSignIn(false);
+     }
+  }
 
   return (
     <>
       <div className='flex justify-between items-center p-8 text-amber-100'>
         <div>
-          <img src={logo} alt="logo" className='h-10' />
+          <img src={logo} alt="logo" className='h-8 sm:h-10 md:h-12 ' />
         </div>
         
     {/*SignedOut component use: Indicates the components that should render
@@ -22,7 +37,7 @@ export const Header = () => {
       In this case it is the Button componenet */}
 
      <SignedOut>
-        <Button variant="outline" className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 mt-1 px-8 py-5"
+        <Button variant="outline" className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 mt-1 px-4 py-2 sm:px-6 sm:py-4"
         onClick={() => setShowSignIn(true)}>
           Login
         </Button>
@@ -48,12 +63,12 @@ export const Header = () => {
       {showSignIn && (
         <div
           className="fixed inset-0 flex items-center justify-center "
-          // onClick={handleOverlayClick}
+          onClick={handleOverlayClick}
         >
           {/* This SignIn component is the actual form model that appears */}
           <SignIn
-            signUpForceRedirectUrl="/onboarding"
-            fallbackRedirectUrl="/onboarding"
+            signUpForceRedirectUrl="/"
+            fallbackRedirectUrl="/"
           />
         </div>
       )}

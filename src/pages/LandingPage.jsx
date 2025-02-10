@@ -13,14 +13,6 @@ import { Link } from 'react-router-dom'
 import { useUser } from '@clerk/clerk-react'
 import faqData from '../apis/faq.json'
 
-// import {
-//   Carousel,
-//   CarouselContent,
-//   CarouselItem,
-//   CarouselNext,
-//   CarouselPrevious,
-// } from '../components/ui/carousel'
-
 
 export const LandingPage = () => {
 
@@ -48,15 +40,7 @@ export const LandingPage = () => {
       </div>
    </div>
 
-   {/* <Carousel>
-  <CarouselContent>
-    <CarouselItem>Hi</CarouselItem>
-    <CarouselItem>Bye</CarouselItem>
-    <CarouselItem>...</CarouselItem>
-  </CarouselContent>
-  <CarouselPrevious />
-  <CarouselNext />
-</Carousel> */}
+   
 <div className='p-8'>
   <img src={landingPageImg} className='h-[700px] w-full' alt="" />
 </div>
