@@ -40,6 +40,7 @@ function App() {
   }]);
 
   const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+  const frontendApi = import.meta.env.VITE_CLERK_FRONTEND_API ;
   
   if (!PUBLISHABLE_KEY) {
     throw new Error("Missing Publishable Key")
@@ -48,7 +49,7 @@ function App() {
 
   return (
     <>
-       <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+       <ClerkProvider frontendApi={frontendApi} publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
          <RouterProvider router={router}/>
         </ClerkProvider>
       
