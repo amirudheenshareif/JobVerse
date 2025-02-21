@@ -4,13 +4,14 @@ import logo from '../assets/jobverse-logo.png'
 import { SignIn ,SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 import { useState } from 'react';
 import { BriefcaseBusiness, Heart } from 'lucide-react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 
 export const Header = () => {
 
   const [showSignIn, setShowSignIn] = useState(false);
   const[search,setSearch] = useSearchParams(); // used to search params in url
+  const navigate = useNavigate();
 
   useEffect(()=>{
     if(search.get("sign-in")){ // searches whether url has a queryParams sign-in=true
@@ -29,7 +30,9 @@ export const Header = () => {
     <>
       <div className='flex justify-between items-center p-8 text-amber-100'>
         <div>
-          <img src={logo} alt="logo" className='h-8 sm:h-10 md:h-12 ' />
+          <img src={logo} alt="logo"
+               className='h-8 sm:h-10 md:h-12 '
+               onClick={()=>{navigate("/")}} />
         </div>
         
     {/*SignedOut component use: Indicates the components that should render
