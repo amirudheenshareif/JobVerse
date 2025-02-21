@@ -31,7 +31,7 @@ export const Header = () => {
       <div className='flex justify-between items-center p-8 text-amber-100'>
         <div>
           <img src={logo} alt="logo"
-               className='h-8 sm:h-10 md:h-12 '
+               className='h-8 sm:h-10 md:h-12  '
                onClick={()=>{navigate("/")}} />
         </div>
         
