@@ -29,7 +29,7 @@ export const LandingPage = () => {
    <>
    <div className='mt-20 flex flex-col items-center justify-center '>
       <h1 className='mb-5 text-center text-3xl sm:text-4xl md:text-5xl font-bold '>Discover Your Next Career Move with JobVerse.</h1>
-      <h2 className='mt-6 text-center text-2xl sm:text-3xl md:text-4xl font-medium'>Find. Post. Connect. – Your Job Search, Simplified</h2>
+      <h2 className='mt-6 text-center text-2xl sm:text-3xl md:text-4xl font-light'>Find. Post. Connect. – Your Job Search, Simplified</h2>
       <div className='mt-10 px-8  flex justify-center gap-8' >
       <Link to='/joblist' >
       <Button variant="outline" className = 'font-bold border border-blue-600 bg-blue-600 hover:bg-blue-700 text-white mt-1 px-9 py-6 sm:px-12 sm:py-9' >Find Jobs</Button>
