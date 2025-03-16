@@ -1,10 +1,8 @@
-import React, { useEffect,useState } from 'react'
-import { getCompanies, getFilteredJobs, getJobs } from '../apis/Jobs'
-import { useSession } from '@clerk/clerk-react'
-import {  RotateLoader } from 'react-spinners'
-import { Input } from '../components/ui/input'
-import { Button } from '../components/ui/button'
-import { JobCard } from '../components/JobCard'
+import React, { useEffect, useState, Suspense, useCallback, useMemo } from 'react';
+import { getFilteredJobs,getCompanies, getJobs } from '../apis/Jobs';
+import { RotateLoader } from 'react-spinners';
+import { Input } from '../components/ui/input';
+import { Button } from '../components/ui/button';
 import capitals from '../apis/location.json';
 import {
   Select,
@@ -13,83 +11,61 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../components/ui/select"
-
+} from "../components/ui/select";
+import { useSession } from '@clerk/clerk-react';
+const JobCard = React.lazy(() => import('../components/JobCard'));
 
 
 export const Joblist = () => {
-
-  const {session}=useSession();
-  const[loading, setLoading] = useState(true);
+  const { session } = useSession();
+  const [loading, setLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
-  const[companies,setCompanies]=useState([]);
-  const[searchQuery,setSearchQuery]=useState("");
-  const[location,setLocation]=useState(""); 
-  const[selectedCompany,setSelectedCompany]=useState("");
+  const [companies, setCompanies] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [location, setLocation] = useState("");
+  const [selectedCompany, setSelectedCompany] = useState("");
+
+  const fetchData = useCallback(async () => {
+    if (session) {
+      const supabaseAccessToken = await session.getToken({ template: "supabase", refresh: "true" });
   
-
-  const fetchJobs = async () => {
-      if(session){
-        const supabaseAccessToken = await session.getToken({
-          template:"supabase", refresh:"true",
-        });
-        const data= await getJobs(supabaseAccessToken)
-        console.log(data);
-        setJobs(data || []); // to ensure job is never null
-        setLoading(false);
-      }
-  }
-
-  useEffect(() => {
-    fetchJobs(); 
-   }, [session])
-
-  const fetchCompanies = async()=>{
-    if(session){ 
-      const supabaseAccessToken = await session.getToken({template:"supabase",refresh:"true"});
-      const resp = await getCompanies(supabaseAccessToken);
-      console.log('resp',resp);
-      setCompanies(resp || []); // to ensure companies is never null
-    }
-  } 
-
-  useEffect(()=>{
-    fetchCompanies();
-  },[session])
-
-
-  const handleSearch = async()=>{
-      setLoading(true)
-      if(session){
-      console.log(selectedCompany,typeof(selectedCompany))
-      const supabaseAccessToken = await session.getToken({template:"supabase",refresh:"true"});
-      const resp = await getFilteredJobs(supabaseAccessToken,{searchQuery,location,selectedCompany})
-      setJobs(resp || []);
-      console.log("Jobs after filter");
-      console.log(jobs);
+      const [jobsData, companiesData] = await Promise.all([
+        getJobs(supabaseAccessToken),
+        getCompanies(supabaseAccessToken)
+      ]);
+  
+      setJobs(jobsData || []);
+      setCompanies(companiesData || []);
       setLoading(false);
     }
-  }
+  }, [session]);
 
   useEffect(() => {
-    console.log("Jobs state updated:", jobs);
-  }, [jobs]); 
+    fetchData();
+  }, [fetchData]);
 
-  const handleClearFilters = async () =>{
+  const handleSearch = useCallback(async () => {
     setLoading(true);
-    setLocation("");;
+    if (session) {
+      const supabaseAccessToken = await session.getToken({ template: "supabase", refresh: "true" });
+      const resp = await getFilteredJobs(supabaseAccessToken, { searchQuery, location, selectedCompany });
+      setJobs(resp || []);
+      setLoading(false);
+    }
+  }, [session, searchQuery, location, selectedCompany]);
+
+  const handleClearFilters = useCallback(async () => {
+    setLoading(true);
+    setLocation("");
     setSelectedCompany("");
     setSearchQuery("");
-    console.log("HandlefiltersWorking");
-    if(session){
-      await fetchJobs();
+    if (session) {
+      await fetchData();
     }
-    setLoading(false); 
-  }
+    setLoading(false);
+  }, [session, fetchData]);
 
-  useEffect(() => {
-    console.log("Filters cleared:", { location, selectedCompany, searchQuery });
-  }, [location, selectedCompany, searchQuery]);
+  const memoizedJobs = useMemo(() => jobs, [jobs]);
 
   return (
     loading ? <div className='flex justify-center items-center h-screen'><RotateLoader color='#2563EB' /></div> :
@@ -125,7 +101,7 @@ export const Joblist = () => {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup className='bg-slate-100'>
-       {companies.map((company)=>(
+       {companies.map((company)=>( 
          <SelectItem  value={company.id} key={company.id}>{company.name}</SelectItem>
        ))}  
         </SelectGroup>
@@ -137,11 +113,14 @@ export const Joblist = () => {
     </section>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-8 py-10">
-      {jobs?.length>0 ? jobs.map((job) => ( //check is to ensure jobs is never null since mapping null causes error
-         <JobCard  key={job.id} job={job}  />
+      {memoizedJobs?.length>0 ? memoizedJobs.map((job) => ( //check is to ensure jobs is never null since mapping null causes error
+         <Suspense key={job.id} fallback={<div>Loading..</div>}>
+         <JobCard  job={job} />
+        </Suspense>
       )) : <p className='font-semibold'>Looks like a small hiccup—refresh to continue!</p>}
       </div>
     
 </div>
   )
 }
+
