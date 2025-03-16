@@ -193,22 +193,6 @@ export async function getFilteredJobs(token,{searchQuery,location="",selectedCom
 
   }
 
-  // if (companyName) {
-  //   query = query.eq("companies.name", companyName);
-  // } 
-  // cant query like this filtering/chaining not allowed in .eq method
-
-  // if(companyName){
-  //   const{companyData,error} = await supabase.from("companies")
-  //   .select("id").eq("name",companyName);
-
-  //   if(error){
-  //     console.log("Err filtering by company", error);
-  //   }
-  //   if(companyData?.length>0){
-  //     query = query.eq("company_id",companyData[0].id);
-  //   }
-  // }
 
   const{data,error} =await query;
 

@@ -112,13 +112,13 @@ export const Joblist = () => {
                 rounded-md px-4 py-2 hover:bg-slate-50 hover:text-slate-800 'onClick={handleClearFilters} >Clear filters</Button>
     </section>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-8 py-10">
-      {memoizedJobs?.length>0 ? memoizedJobs.map((job) => ( //check is to ensure jobs is never null since mapping null causes error
-         <Suspense key={job.id} fallback={<div>Loading..</div>}>
-         <JobCard  job={job} />
-        </Suspense>
-      )) : <p className='font-semibold'>Looks like a small hiccup—refresh to continue!</p>}
-      </div>
+    <Suspense fallback={<div className='flex justify-center items-center h-screen'><RotateLoader color='#2563EB' /></div>}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-8 py-10">
+          {memoizedJobs?.length > 0 ? memoizedJobs.map((job) => (
+            <JobCard key={job.id} job={job} />
+          )) : <p className='font-semibold'>Looks like a small hiccup—refresh to continue!</p>}
+        </div>
+      </Suspense>
     
 </div>
   )
