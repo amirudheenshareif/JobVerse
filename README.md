@@ -34,7 +34,4 @@ JobVerse is a responsive job portal designed to simplify job discovery and appli
 **Authentication:** Clerk.
 
 
-## Demo
-
-https://github.com/user-attachments/assets/448635e5-83a3-43b9-9ede-4af9d2cf9ea9
 
